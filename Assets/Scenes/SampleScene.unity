@@ -524,13 +524,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosionSound: {fileID: 8300000, guid: 21be30b887c2a384b9de7723ff3a4eab, type: 3}
-  _scoreText: {fileID: 98353047}
-  _timeToExplodeText: {fileID: 249579090}
-  _gameOverText: {fileID: 1251474776}
-  timeToExplode: 60
-  _basicRunner: {fileID: 1024840727}
+  _basicRunner: {fileID: 1024840734}
   _slideSpeed: 5
   _levelWidth: 5
+  _gameManager: {fileID: 770347795}
 --- !u!54 &116026055
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -581,6 +578,52 @@ CapsuleCollider:
   m_Height: 1.63
   m_Direction: 2
   m_Center: {x: -0.02, y: -0.03, z: 0.7}
+--- !u!1 &190862253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 190862255}
+  - component: {fileID: 190862254}
+  m_Layer: 0
+  m_Name: BombTimer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &190862254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190862253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9df041439e52e64498aa0e48a01f4d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bombTimer: 30
+  _timeToExplodeText: {fileID: 249579090}
+--- !u!4 &190862255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190862253}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 770347796}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &249579088
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,8 +1056,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 635134293}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09853761, y: 0, z: 0, w: 0.99513334}
-  m_LocalPosition: {x: 0, y: 2, z: -5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1034,7 +1077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damping: {x: 0, y: 0, z: 0}
   ShoulderOffset: {x: 0, y: 0, z: 0}
-  VerticalArmLength: 2
+  VerticalArmLength: 3
   CameraSide: 1
   CameraDistance: 5
   AvoidObstacles:
@@ -1059,7 +1102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: 0, y: -0}
     DeadZone:
       Enabled: 0
       Size: {x: 0.2, y: 0.2}
@@ -1068,13 +1111,62 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 1, z: 0}
+  TargetOffset: {x: 0, y: 3, z: 0}
   Damping: {x: 0, y: 0}
   Lookahead:
     Enabled: 0
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!1 &770347794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 770347796}
+  - component: {fileID: 770347795}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &770347795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770347794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85593664d6ec2f4a93f04fff6ae9090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreText: {fileID: 98353047}
+  _gameOverText: {fileID: 1251474776}
+  _bombTimerScript: {fileID: 190862254}
+  _player: {fileID: 116026054}
+--- !u!4 &770347796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770347794}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.92495733, y: 1.9555806, z: -2.8462093}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 190862255}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,14 +1379,19 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947678017}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09853761, y: 0, z: 0, w: 0.99513334}
-  m_LocalPosition: {x: 0, y: 2, z: -5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1024840727 stripped
+--- !u!4 &1024840732 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2495381220063856924, guid: 03b2317ec2f91684899d33ce3522e1ad, type: 3}
+  m_PrefabInstance: {fileID: 7097868839727181457}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1024840734 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1975945766038281452, guid: 03b2317ec2f91684899d33ce3522e1ad, type: 3}
   m_PrefabInstance: {fileID: 7097868839727181457}
@@ -1305,11 +1402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea2fa2f688cc3ee4ca853244d65c4f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1024840732 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2495381220063856924, guid: 03b2317ec2f91684899d33ce3522e1ad, type: 3}
-  m_PrefabInstance: {fileID: 7097868839727181457}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1251474774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,3 +1745,4 @@ SceneRoots:
   - {fileID: 635134296}
   - {fileID: 947678022}
   - {fileID: 616017786}
+  - {fileID: 770347796}

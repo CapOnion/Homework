@@ -19,6 +19,12 @@ public class PlayerController : MonoBehaviour
             AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
             _gameManager.AddScore(10);
         }
+
+        if (other.CompareTag("Boost_timer"))
+        {
+            Destroy(other.gameObject);
+            _gameManager._bombTimerScript.AddTime(10);
+        }
     }
 
     private void Update()

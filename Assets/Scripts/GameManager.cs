@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _gameOverText;
-    [SerializeField] private BombTimerScript _bombTimerScript;
+    [SerializeField] public BombTimerScript _bombTimerScript;
     [SerializeField] private PlayerController _player;
     
 
