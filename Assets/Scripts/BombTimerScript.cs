@@ -1,14 +1,18 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class BombTimerScript : MonoBehaviour
 {
     [SerializeField] public float _bombTimer;
     [SerializeField] public TextMeshProUGUI _timeToExplodeText;
+
     void Start()
     {
 
     }
+
+    private const string AddTimeTrigger = "addTime";
 
     void Update()
     {
@@ -19,5 +23,7 @@ public class BombTimerScript : MonoBehaviour
     public void AddTime(float timeToAdd)
     {
         _bombTimer += timeToAdd;
-    }
+    }   
+
 }
+

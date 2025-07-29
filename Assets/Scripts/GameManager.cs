@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     {
         if (_bombTimerScript._bombTimer <= 0)
         {
-            scoreNumber -= 100;
+            AddScore(-100);
             if (scoreNumber <= 0)
             {
                 GameOver();
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetTimer()
     {
-        _bombTimerScript.AddTime(60);
+        _bombTimerScript.AddTime(_bombTimerScript._bombTimer);
     }
 
     public void GameOver()

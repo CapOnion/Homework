@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _slideSpeed = 5f;
     [SerializeField] private int _levelWidth = 5;
     [SerializeField] private GameManager _gameManager;
+    [SerializeField] private Animator _animator;
 
+    private const string Runnig = "isRunning";
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
@@ -27,6 +29,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _animator.SetBool(Runnig, true);
+    }
+
     private void Update()
     {
         var finalOffset = UnityEngine.Vector2.MoveTowards(_basicRunner.motion.offset, _targetVector, _slideSpeed * Time.deltaTime);
@@ -36,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public void GameOver()
     {
         _basicRunner.follow = false;
+        _animator.SetBool(Runnig, false);
     }
 
     private Vector2 _targetVector;
