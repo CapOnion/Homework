@@ -9,10 +9,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Runner _basicRunner;
     [SerializeField] private float _slideSpeed = 5f;
     [SerializeField] private int _levelWidth = 5;
+    [SerializeField] private int _levelHeight = 5;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Animator _animator;
 
-    private const string Runnig = "isRunning";
+    private const string Running = "isRunning";
+    private const string flyUp = "flyUp";
+    private const string Landing = "isLanding";
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
@@ -27,23 +30,35 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             _gameManager._bombTimerScript.AddTime(10);
         }
+        if (other.CompareTag("Obstacle"))
+        {
+            _gameManager.AddScore(-100);
+        }
     }
 
     private void Start()
     {
-        _animator.SetBool(Runnig, true);
+        _animator.SetBool(Running, true);
     }
 
     private void Update()
     {
         var finalOffset = UnityEngine.Vector2.MoveTowards(_basicRunner.motion.offset, _targetVector, _slideSpeed * Time.deltaTime);
         _basicRunner.motion.offset = finalOffset;
+
+        if ((_animator.GetBool(Running) == false) && _basicRunner.motion.offset.y <= 0)
+        {
+            _animator.SetTrigger(Landing);
+            _animator.SetBool(Running, true);
+        }
+        
     }
 
     public void GameOver()
     {
         _basicRunner.follow = false;
-        _animator.SetBool(Runnig, false);
+        _animator.SetBool(Running, false);
+        this.enabled = false;
     }
 
     private Vector2 _targetVector;
@@ -55,19 +70,47 @@ public class PlayerController : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        _inputController.MovementRecieved += OnMovementRecieved;
-        _inputController.MovementEnd += OnMovementEnd;
+        _inputController.MovementXRecieved += OnMovementXRecieved;
+        _inputController.MovementXEnd += OnMovementEnd;
+
+        _inputController.MovementYRecieved += OnMovementYRecieved;
+        _inputController.MovementYEnd += OnMovementEnd;
     }
 
     private void UnsubscribeEvents()
     {
-        _inputController.MovementRecieved -= OnMovementRecieved;
-        _inputController.MovementEnd -= OnMovementEnd;
+        _inputController.MovementXRecieved -= OnMovementXRecieved;
+        _inputController.MovementXEnd -= OnMovementEnd;
+
+        _inputController.MovementYRecieved -= OnMovementYRecieved;
+        _inputController.MovementYEnd -= OnMovementEnd;
     }
 
-    private void OnMovementRecieved(Vector2 movement)
+    private void OnMovementXRecieved(Vector2 movement)
+        {
+            _targetVector = new Vector2(movement.x * _levelWidth, _basicRunner.motion.offset.y);
+        }
+
+    private void OnMovementYRecieved(Vector2 movement)
     {
-        _targetVector = new Vector2(movement.x * _levelWidth, _basicRunner.motion.offset.y);
+        float _targetY = movement.y * _levelHeight;
+        if (_targetY <= 0)
+        {
+            _targetY = 0;
+        }
+
+        _targetVector = new Vector2(_basicRunner.motion.offset.x, _targetY);
+
+        if (_targetY > 0)
+        {
+
+            if (_animator.GetBool(Running) == true)
+            {
+                _animator.SetBool(Running, false);
+                _animator.SetTrigger(flyUp);
+            }
+
+        }
     }
 
     private void OnMovementEnd()

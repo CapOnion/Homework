@@ -8,7 +8,6 @@ public class BoostsGenerator : MonoBehaviour
     private void Start()
     {
         float chance = Random.value;
-        Debug.Log(chance);
         if (chance > 0.5)
         {
             Generate();

@@ -28,9 +28,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""0663ea97-f6bd-45bf-8bb4-a63025d514a3"",
             ""actions"": [
                 {
-                    ""name"": ""Movement"",
+                    ""name"": ""Movement_x"",
                     ""type"": ""Value"",
                     ""id"": ""17987804-e364-4c8d-b248-038dc6f1cdfb"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Movement_y"",
+                    ""type"": ""Value"",
+                    ""id"": ""960bd741-e016-4433-bfe5-f9e834b74740"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -39,48 +48,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""ab075f25-b3bc-40a8-9a04-d471056723c9"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""2D Vector"",
                     ""id"": ""d8f56a47-8c2b-4d6e-9b5d-a9dca086318f"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Movement_x"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""5ae9fb1c-846c-4269-9a6a-61739bd6c4e9"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""1c4e7638-2e0b-4e0b-962f-1c5cde61aa0c"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
@@ -89,7 +65,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Movement_x"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -100,7 +76,40 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Movement_x"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""397752bc-5af1-4bcf-8a51-81e5033eeeb0"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement_y"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""25afe78c-5a72-4563-9810-1661d0fc953f"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement_y"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""a435ffa6-2a10-4f00-b140-b57741074bac"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement_y"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -111,7 +120,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 }");
         // Default
         m_Default = asset.FindActionMap("Default", throwIfNotFound: true);
-        m_Default_Movement = m_Default.FindAction("Movement", throwIfNotFound: true);
+        m_Default_Movement_x = m_Default.FindAction("Movement_x", throwIfNotFound: true);
+        m_Default_Movement_y = m_Default.FindAction("Movement_y", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -178,12 +188,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // Default
     private readonly InputActionMap m_Default;
     private List<IDefaultActions> m_DefaultActionsCallbackInterfaces = new List<IDefaultActions>();
-    private readonly InputAction m_Default_Movement;
+    private readonly InputAction m_Default_Movement_x;
+    private readonly InputAction m_Default_Movement_y;
     public struct DefaultActions
     {
         private @PlayerControls m_Wrapper;
         public DefaultActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Default_Movement;
+        public InputAction @Movement_x => m_Wrapper.m_Default_Movement_x;
+        public InputAction @Movement_y => m_Wrapper.m_Default_Movement_y;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -193,16 +205,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_DefaultActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_DefaultActionsCallbackInterfaces.Add(instance);
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
+            @Movement_x.started += instance.OnMovement_x;
+            @Movement_x.performed += instance.OnMovement_x;
+            @Movement_x.canceled += instance.OnMovement_x;
+            @Movement_y.started += instance.OnMovement_y;
+            @Movement_y.performed += instance.OnMovement_y;
+            @Movement_y.canceled += instance.OnMovement_y;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
         {
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
+            @Movement_x.started -= instance.OnMovement_x;
+            @Movement_x.performed -= instance.OnMovement_x;
+            @Movement_x.canceled -= instance.OnMovement_x;
+            @Movement_y.started -= instance.OnMovement_y;
+            @Movement_y.performed -= instance.OnMovement_y;
+            @Movement_y.canceled -= instance.OnMovement_y;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -222,6 +240,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public DefaultActions @Default => new DefaultActions(this);
     public interface IDefaultActions
     {
-        void OnMovement(InputAction.CallbackContext context);
+        void OnMovement_x(InputAction.CallbackContext context);
+        void OnMovement_y(InputAction.CallbackContext context);
     }
 }

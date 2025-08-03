@@ -21,12 +21,12 @@ public class GameManager : MonoBehaviour
         if (_bombTimerScript._bombTimer <= 0)
         {
             AddScore(-100);
-            if (scoreNumber <= 0)
+            ResetTimer();
+        }
+        if (scoreNumber < 0)
             {
                 GameOver();
             }
-            ResetTimer();
-        }
     }
 
     private void ResetTimer()
@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
         _bombTimerScript._timeToExplodeText.text = "Time to explode: 0";
         _bombTimerScript.enabled = false;
         _player.GameOver();
+        this.enabled = false;
+        
     }
 
 
