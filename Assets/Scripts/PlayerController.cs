@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Animator _animator;
 
+    [SerializeField] private ParticleSystem _explosion;
+
     private const string Running = "isRunning";
     private const string flyUp = "flyUp";
     private const string Landing = "isLanding";
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(other.gameObject);
             AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
+            _explosion.Play();
             _gameManager.AddScore(10);
         }
 
@@ -33,6 +36,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             _gameManager.AddScore(-100);
+            _explosion.Play();
         }
     }
 
