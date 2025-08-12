@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using Dreamteck.Forever;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _gameOverText;
     [SerializeField] public BombTimerScript _bombTimerScript;
     [SerializeField] private PlayerController _player;
+    [SerializeField] private GameObject _playerObject;
+    [SerializeField] private LevelGenerator _levelGenerator;
+    [SerializeField] private GameObject _menuUI;
     
     
 
@@ -17,13 +21,13 @@ public class GameManager : MonoBehaviour
         _gameOverText.enabled = false;
     }
 
-    // public void onClick()
-    // {
-    //     this.gameObject.SetActive(true);
-    //     _player.SetActive(true);
-    //     _levelGenerator.gameObject.SetActive(true);
-    //     _menuUI.gameObject.SetActive(false);
-    // }
+    public void onClick()
+    {
+        this.gameObject.SetActive(true);
+        _playerObject.SetActive(true);
+        _levelGenerator.gameObject.SetActive(true);
+        _menuUI.gameObject.SetActive(false);
+    }
 
     private void Update()
     {
