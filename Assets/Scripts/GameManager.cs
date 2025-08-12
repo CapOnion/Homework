@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public BombTimerScript _bombTimerScript;
     [SerializeField] private PlayerController _player;
     
+    
 
     private int scoreNumber = 0;
 
@@ -15,6 +16,14 @@ public class GameManager : MonoBehaviour
     {
         _gameOverText.enabled = false;
     }
+
+    // public void onClick()
+    // {
+    //     this.gameObject.SetActive(true);
+    //     _player.SetActive(true);
+    //     _levelGenerator.gameObject.SetActive(true);
+    //     _menuUI.gameObject.SetActive(false);
+    // }
 
     private void Update()
     {
@@ -24,9 +33,9 @@ public class GameManager : MonoBehaviour
             ResetTimer();
         }
         if (scoreNumber < 0)
-            {
-                GameOver();
-            }
+        {
+            GameOver();
+        }
     }
 
     private void ResetTimer()
@@ -37,7 +46,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         _gameOverText.enabled = true;
-        _bombTimerScript._timeToExplodeText.text = "Time to explode: 0";
+        _bombTimerScript._timeToExplodeText.text = "0";
         _bombTimerScript.enabled = false;
         _player.GameOver();
         this.enabled = false;
@@ -48,6 +57,6 @@ public class GameManager : MonoBehaviour
     public void AddScore(int nubmerToAdd)
     {
         scoreNumber += nubmerToAdd;
-        _scoreText.text = "Score: " + scoreNumber;
+        _scoreText.text = scoreNumber.ToString();
     }
 }

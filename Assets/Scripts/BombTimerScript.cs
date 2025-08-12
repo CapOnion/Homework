@@ -17,7 +17,7 @@ public class BombTimerScript : MonoBehaviour
     void Update()
     {
         _bombTimer -= 1 * Time.deltaTime;
-        _timeToExplodeText.text = "Time to explode: " + _bombTimer;
+        _timeToExplodeText.text = _bombTimer.ToString();
     }
 
     public void AddTime(float timeToAdd)
