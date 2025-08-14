@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using Dreamteck.Forever;
+using JSAM;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _gameOverText.enabled = false;
+        AudioManager.PlayMusic(AudioLibMusic.BackgroundMusic);
     }
 
     public void onClick()

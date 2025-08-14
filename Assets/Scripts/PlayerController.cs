@@ -1,5 +1,6 @@
 using UnityEngine;
 using Dreamteck.Forever;
+using JSAM;
 
 
 public class PlayerController : MonoBehaviour
@@ -23,7 +24,8 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             Destroy(other.gameObject);
-            AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
+            // AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
+            AudioManager.PlaySound(AudioLibSounds.ExplosionSFX);
             _explosion.Play();
             _gameManager.AddScore(10);
         }
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Boost_timer"))
         {
             Destroy(other.gameObject);
+            AudioManager.PlaySound(AudioLibSounds.CollectiblesSFX);
             _gameManager._bombTimerScript.AddTime(10);
         }
         if (other.CompareTag("Obstacle"))
@@ -43,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _animator.SetBool(Running, true);
+        AudioManager.PlaySound(AudioLibSounds.RunSFX);
     }
 
     private void Update()
@@ -54,6 +58,7 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetTrigger(Landing);
             _animator.SetBool(Running, true);
+            AudioManager.PlaySound(AudioLibSounds.RunSFX);
         }
         
     }
@@ -111,6 +116,7 @@ public class PlayerController : MonoBehaviour
             if (_animator.GetBool(Running) == true)
             {
                 _animator.SetBool(Running, false);
+                AudioManager.StopSound(AudioLibSounds.RunSFX);
                 _animator.SetTrigger(flyUp);
             }
 
