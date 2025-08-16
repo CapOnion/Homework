@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _playerObject;
     [SerializeField] private LevelGenerator _levelGenerator;
     [SerializeField] private GameObject _menuUI;
-    
-    
 
+
+    bool isPaused;
     private int scoreNumber = 0;
 
     private void Start()
@@ -23,30 +23,19 @@ public class GameManager : MonoBehaviour
         AudioManager.PlayMusic(AudioLibMusic.BackgroundMusic);
     }
 
-    public void onClick()
+    public void onPlayClick()
     {
+        isPaused = false;
+        Time.timeScale = 1f;
         this.gameObject.SetActive(true);
         _playerObject.SetActive(true);
         _levelGenerator.gameObject.SetActive(true);
         _menuUI.gameObject.SetActive(false);
     }
-
-    private void Update()
+    public void onPauseClick()
     {
-        if (_bombTimerScript._bombTimer <= 0)
-        {
-            AddScore(-100);
-            ResetTimer();
-        }
-        if (scoreNumber < 0)
-        {
-            GameOver();
-        }
-    }
-
-    private void ResetTimer()
-    {
-        _bombTimerScript.AddTime(_bombTimerScript._bombTimer);
+        isPaused = true;
+        Time.timeScale = 0f;
     }
 
     public void GameOver()
@@ -64,5 +53,9 @@ public class GameManager : MonoBehaviour
     {
         scoreNumber += nubmerToAdd;
         _scoreText.text = scoreNumber.ToString();
+        if (scoreNumber < 0)
+        {
+            GameOver();
+        }
     }
 }
