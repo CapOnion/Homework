@@ -5,7 +5,7 @@ using JSAM;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _scoreText;
+    public static GameManager Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI _gameOverText;
     [SerializeField] public BombTimerScript _bombTimerScript;
     [SerializeField] private PlayerController _player;
@@ -13,16 +13,36 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LevelGenerator _levelGenerator;
     [SerializeField] private GameObject _menuUI;
 
-
+    int bombsLeft = 3;
+    int bombsExploded = 0;
+    int highscore = 0;
     bool isPaused;
-    private int scoreNumber = 0;
 
     private void Start()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         _gameOverText.enabled = false;
         AudioManager.PlayMusic(AudioLibMusic.BackgroundMusic);
+        if (GameSaver.TryLoad<PlayerData>(out var data))
+        {
+            highscore = data.Highscore;
+            bombsExploded = data.BombsExploded;
+        }
     }
+    public void SavePlayerData(int _currentScore, int _bombsExploded)
+    {
+        PlayerData playerData = new PlayerData(
+            _currentScore,
+            _bombsExploded
+        );
 
+        GameSaver.Save(playerData);
+    }
     public void onPlayClick()
     {
         isPaused = false;
@@ -48,14 +68,27 @@ public class GameManager : MonoBehaviour
         
     }
 
-
-    public void AddScore(int nubmerToAdd)
+    public void BombExplode()
     {
-        scoreNumber += nubmerToAdd;
-        _scoreText.text = scoreNumber.ToString();
-        if (scoreNumber < 0)
+        bombsLeft = bombsLeft - 1;
+        bombsExploded = bombsExploded + 1;
+        if (bombsLeft == 0)
         {
             GameOver();
+            if (ScoreManager.Instance.scoreNumber > highscore)
+            {
+                SavePlayerData(ScoreManager.Instance.scoreNumber, bombsExploded);
+                Debug.Log("New highscore! " + ScoreManager.Instance.scoreNumber);
+            }
+            else
+            {
+                SavePlayerData(highscore, bombsExploded);
+            }
+            Debug.Log("Bombs exploded: " + bombsExploded);
         }
+    }
+    public void AddScore(int _nubmerToAdd)
+    {
+        ScoreManager.Instance.AddScore(_nubmerToAdd);
     }
 }

@@ -13,7 +13,12 @@ public class SettingsScreen : MonoBehaviour
     [SerializeField] private TMP_Text _musicVolumeText;
     [SerializeField] private TMP_Text _sfxVolumeText;
     float _sliderValue;
+
     private void Start()
+    {
+        SetValues();
+    }
+    private void SetValues()
     {
         _masterVolumeSlider.value = PlayerPrefs.GetFloat(Constants.MasterVolumeKey, 1f);
         _sliderValue = _masterVolumeSlider.value * 100;
@@ -30,7 +35,6 @@ public class SettingsScreen : MonoBehaviour
         _sfxVolumeText.text = _sliderValue.ToString("0");
         AudioManager.SoundVolume = _sfxVolumeSlider.value;
     }
-
     public void OnMasterSliderChanged(float value)
     {
         _sliderValue = value * 100;
@@ -60,7 +64,10 @@ public class SettingsScreen : MonoBehaviour
 
     public void OnDefaultClick()
     {
-
+        // GameManager.Instance.SavePlayerData(0, 0);
+        GameSaver.Save(new PlayerData(0,0));
+        PlayerPrefs.DeleteAll();
+        SetValues();
     }
 
 }

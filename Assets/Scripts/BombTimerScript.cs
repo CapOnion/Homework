@@ -21,7 +21,7 @@ public class BombTimerScript : MonoBehaviour
         _timeToExplodeText.text = _bombTimer.ToString("0");
         if (_bombTimer <= 0)
         {
-            _gameManager.AddScore(-100);
+            GameManager.Instance.BombExplode();
             ResetTimer();
         }
     }

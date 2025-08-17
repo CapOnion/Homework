@@ -5,7 +5,6 @@ using JSAM;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private AudioClip _explosionSound;
      private InputControls _inputController;
     [SerializeField] private Runner _basicRunner;
     [SerializeField] private float _slideSpeed = 5f;
@@ -16,18 +15,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private ParticleSystem _explosion;
 
-    private const string Running = "isRunning";
-    private const string flyUp = "flyUp";
-    private const string Landing = "isLanding";
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
             Destroy(other.gameObject);
-            // AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
             AudioManager.PlaySound(AudioLibSounds.ExplosionSFX);
             _explosion.Play();
             _gameManager.AddScore(10);
+            GameManager.Instance.BombExplode();
         }
 
         if (other.CompareTag("Boost_timer"))
@@ -38,14 +34,16 @@ public class PlayerController : MonoBehaviour
         }
         if (other.CompareTag("Obstacle"))
         {
-            _gameManager.AddScore(-100);
+            AudioManager.PlaySound(AudioLibSounds.ExplosionSFX);
+            // _gameManager.AddScore(-100);
             _explosion.Play();
+            GameManager.Instance.BombExplode();
         }
     }
 
     private void Start()
     {
-        _animator.SetBool(Running, true);
+        _animator.SetBool(Constants.Running, true);
         AudioManager.PlaySound(AudioLibSounds.RunSFX);
     }
 
@@ -54,10 +52,10 @@ public class PlayerController : MonoBehaviour
         var finalOffset = UnityEngine.Vector2.MoveTowards(_basicRunner.motion.offset, _targetVector, _slideSpeed * Time.deltaTime);
         _basicRunner.motion.offset = finalOffset;
 
-        if ((_animator.GetBool(Running) == false) && _basicRunner.motion.offset.y <= 0)
+        if ((_animator.GetBool(Constants.Running) == false) && _basicRunner.motion.offset.y <= 0)
         {
-            _animator.SetTrigger(Landing);
-            _animator.SetBool(Running, true);
+            _animator.SetTrigger(Constants.Landing);
+            _animator.SetBool(Constants.Running, true);
             AudioManager.PlaySound(AudioLibSounds.RunSFX);
         }
         
@@ -66,7 +64,7 @@ public class PlayerController : MonoBehaviour
     public void GameOver()
     {
         _basicRunner.follow = false;
-        _animator.SetBool(Running, false);
+        _animator.SetBool(Constants.Running, false);
         this.enabled = false;
     }
 
@@ -113,11 +111,11 @@ public class PlayerController : MonoBehaviour
         if (_targetY > 0)
         {
 
-            if (_animator.GetBool(Running) == true)
+            if (_animator.GetBool(Constants.Running) == true)
             {
-                _animator.SetBool(Running, false);
+                _animator.SetBool(Constants.Running, false);
                 AudioManager.StopSound(AudioLibSounds.RunSFX);
-                _animator.SetTrigger(flyUp);
+                _animator.SetTrigger(Constants.flyUp);
             }
 
         }
