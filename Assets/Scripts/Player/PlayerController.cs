@@ -24,20 +24,22 @@ public class PlayerController : MonoBehaviour
             _explosion.Play();
             _gameManager.AddScore(10);
             GameManager.Instance.BombExplode();
+            CameraImpulse.Instance.PlayCameraShake();
         }
 
         if (other.CompareTag("Boost_timer"))
         {
             Destroy(other.gameObject);
             AudioManager.PlaySound(AudioLibSounds.CollectiblesSFX);
-            _gameManager._bombTimerScript.AddTime(10);
+            _gameManager._bombTimerScript.AddTime(Constants.TimeToAddFromBooster);
+            FloatingText.Instance.AddSecondsFloating("+" + Constants.TimeToAddFromBooster + "s");
         }
         if (other.CompareTag("Obstacle"))
         {
             AudioManager.PlaySound(AudioLibSounds.ExplosionSFX);
-            // _gameManager.AddScore(-100);
             _explosion.Play();
             GameManager.Instance.BombExplode();
+            CameraImpulse.Instance.PlayCameraShake();
         }
     }
 
